@@ -6,6 +6,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CategoriesModule } from './categories/categories.module';
 import { Category } from './categories/entities/category.entity';
+import { Option } from './options/entities/option.entity';
+import { OptionsModule } from './options/options.module';
 import { Product } from './products/entities/product.entity';
 import { ProductsModule } from './products/products.module';
 
@@ -24,12 +26,13 @@ import { ProductsModule } from './products/products.module';
         username: configService.get('POSTGRES_USERNAME'),
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DATABASE'),
-        entities: [Product, Category],
+        entities: [Product, Category, Option],
       }),
       inject: [ConfigService],
     }),
     ProductsModule,
     CategoriesModule,
+    OptionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
