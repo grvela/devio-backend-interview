@@ -15,3 +15,16 @@ services:
     environment:
       - PGADMIN_DEFAULT_EMAIL=${ADMIN_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${ADMIN_PASSWORD}
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - ${APP_PORT}:3000
+    depends_on:
+      - database
+    environment:
+      - NODE_ENV=production
+    working_dir: /app
+    volumes:
+      - ./src:/app/src
