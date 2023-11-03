@@ -24,8 +24,8 @@ export class OrdersController {
     private eventEmitter: EventEmitter2,
   ) {}
 
-  @Sse('sse')
-  sse(): Observable<MessageEvent> {
+  @Sse('sse/order/new')
+  sseNewOrder(): Observable<MessageEvent> {
     return fromEvent(this.eventEmitter, 'new-order').pipe(
       map(() => {
         return new MessageEvent('new-order');
@@ -47,6 +47,11 @@ export class OrdersController {
     return await this.ordersService.findAll();
   }
 
+  @Get()
+  async findAllInProgress() {
+    return await this.ordersService.findAllInProgress();
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.ordersService.findOne(+id);
@@ -58,6 +63,26 @@ export class OrdersController {
     @Body() updateOrderDto: UpdateOrderDto,
   ) {
     return await this.ordersService.update(+id, updateOrderDto);
+  }
+
+  @Sse('sse/order/finished')
+  sseFinishedOrder(): Observable<MessageEvent> {
+    return fromEvent(this.eventEmitter, 'finished-order').pipe(
+      map((data: any) => {
+        return new MessageEvent('finished-order', { data: data.id });
+      }),
+    );
+  }
+  @Patch('status/:id')
+  async updateStatus(
+    @Param('id') id: string,
+    @Body() updateOrderDto: UpdateOrderDto,
+  ) {
+    const order = await this.ordersService.update(+id, updateOrderDto);
+    if (order.affected == 1) {
+      this.eventEmitter.emit('finished-order', { id: id });
+    }
+    return order;
   }
 
   @Delete(':id')

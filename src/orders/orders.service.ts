@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { Status } from './dto/status.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
 
@@ -18,6 +19,12 @@ export class OrdersService {
 
   async findAll() {
     return await this.orderRepository.find();
+  }
+
+  async findAllInProgress() {
+    return await this.orderRepository.findBy({
+      status: Status.InProgress,
+    });
   }
 
   async findOne(id: number) {

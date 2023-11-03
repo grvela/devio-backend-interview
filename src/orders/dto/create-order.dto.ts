@@ -1,5 +1,6 @@
 import { Option } from 'src/options/entities/option.entity';
 import { Product } from 'src/products/entities/product.entity';
+import { Status } from './status.dto';
 
 export class CreateOrderDto {
   /**
@@ -21,9 +22,17 @@ export class CreateOrderDto {
   /**
    * Tipo de pagamento do cliente
    */
-  paymentType: string;
+  paymentType: string[];
   /**
    * Preço total do pedido
    */
   totalPrice: number;
+  /**
+   * Nome do cliente
+   */
+  clientName: string;
+  /**
+   * Status do pedido
+   */
+  status: Status;
 }

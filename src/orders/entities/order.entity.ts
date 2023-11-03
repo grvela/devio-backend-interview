@@ -8,6 +8,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Status } from '../dto/status.dto';
 
 @Entity('orders')
 export class Order {
@@ -28,12 +29,19 @@ export class Order {
   @Column()
   notes: string;
 
-  @Column()
-  paymentType: string;
+  @Column('text', { array: true })
+  paymentType: string[];
 
   @Column('float')
   totalPrice: number;
 
-  //TODO-Falta adicionar o nome do cliente
-  //TODO - Falta adicionar o status do produto ['requested','inProgress','finished', 'cancelled]
+  @Column()
+  clientName: string;
+
+  @Column({
+    type: 'enum',
+    enum: Status,
+    default: Status.InProgress,
+  })
+  status: Status;
 }
