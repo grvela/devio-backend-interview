@@ -28,6 +28,7 @@ import { ProductsModule } from './products/products.module';
         username: configService.get('POSTGRES_USERNAME'),
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DATABASE'),
+        ssl: true,
         entities: [Product, Category, Option, Order],
       }),
       inject: [ConfigService],

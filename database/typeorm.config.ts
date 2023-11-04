@@ -16,4 +16,7 @@ export const AppDataSource = new DataSource({
   database: configService.get('POSTGRES_DATABASE'),
   entities: ['dist/src/**/**/*.entity{.ts,.js}'],
   migrations: ['dist/database/migrations/*{.ts,.js}'],
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
