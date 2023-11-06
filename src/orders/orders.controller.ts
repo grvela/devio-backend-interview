@@ -47,7 +47,7 @@ export class OrdersController {
     return await this.ordersService.findAll();
   }
 
-  @Get()
+  @Get('in-progress')
   async findAllInProgress() {
     return await this.ordersService.findAllInProgress();
   }

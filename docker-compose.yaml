@@ -20,7 +20,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - ${APP_PORT}:3000
+      - ${PORT}:3000
     depends_on:
       - database
     environment:
